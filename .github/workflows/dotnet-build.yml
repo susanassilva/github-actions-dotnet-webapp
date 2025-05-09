@@ -1,0 +1,33 @@
+name: GitHub4Women App
+
+on:
+  push:
+    schedule:
+      - cron: '0 * * * *'
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore dependencies
+        run: dotnet restore github4women/github4women.csproj
+
+      - name: Build project
+        run: dotnet build github4women/github4women.csproj
+
+      - name: Custom script
+        run: |
+          echo "Executando script pra demonstrar data e hora do build"
+          echo "Data e hora: $(date)"
+          echo "Build concluído com sucesso!"
